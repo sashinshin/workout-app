@@ -1,7 +1,8 @@
 import React from 'react';
 
-const AddExercise = () => {
-  const handleSubmit = async e => {
+const AddExercise = ({ updateExercises, toggle }) => {
+  
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const name = document.getElementById('name').value;
     const checkboxes = document.querySelectorAll('input[name="muscle"]:checked')
@@ -24,7 +25,9 @@ const AddExercise = () => {
     //show exercise added message
     const body = await response.text();
     console.log(body);
-
+    toggle();
+    updateExercises();
+    
   };
 
   const muscleGroups = [
@@ -37,7 +40,7 @@ const AddExercise = () => {
   ]
 
   return (
-    <div className="AddExercise">
+    <div className="add-exercise">
       <form onSubmit={handleSubmit}>
         <p>
           <strong>Add exercise:</strong>
@@ -45,10 +48,11 @@ const AddExercise = () => {
         <input
           id="name"
           type="text"
+          placeholder="New exercise..."
           />
-        <ul>
-        {muscleGroups.map(value => (<li>{value}<input type="checkbox" id={value} name="muscle" /></li>))}
-        </ul>
+        <section className="add-exercise__input">
+        {muscleGroups.map((value, key) => (<div key={key}><input type="checkbox" id={value} name="muscle" />{value}</div>))}
+        </section>
         <button className="btn"  type="submit">Submit</button>
       </form>
     </div>

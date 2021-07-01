@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const dateFormat = require("dateformat");
 
 const app = express();
 const port = 5000;
@@ -66,38 +67,47 @@ let programs = [
       {
         name: "deadlift",
         reps: 5,
+        weight: 120,
       },
       {
         name: "deadlift",
         reps: 5,
+        weight: 120,
       },
       {
         name: "deadlift",
         reps: 5,
+        weight: 120,
       },
       {
         name: "squat",
         reps: 5,
+        weight: 100,
       },
       {
         name: "squat",
         reps: 5,
+        weight: 100,
       },
       {
         name: "squat",
         reps: 5,
+        weight: 100,
       },
       {
         name: "benchpress",
         reps: 5,
+        weight: 60,
       },
       {
         name: "benchpress",
         reps: 5,
+        weight: 60,
       },
       {
         name: "benchpress",
         reps: 5,
+        weight: 60,
       },
     ]
   }
@@ -123,7 +133,11 @@ app.get('/api/finishedworkouts', (req, res) => {
 
 app.post('/api/finishedworkouts', (req, res) => {
   const finished = req.body;
-  finishedWorkouts.push(finished);
+  const date = dateFormat(req.body.workoutStart, 'ddd mmm dd, yyyy');
+  const start = dateFormat(req.body.workoutStart, 'HH:MM');
+  const end = dateFormat(req.body.workoutEnd, 'HH:MM');
+  console.log(finished);
+  finishedWorkouts.unshift({...finished, workoutEnd: end, workoutStart: start, date: date});
   res.send(finishedWorkouts);
 })
 

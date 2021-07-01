@@ -1,17 +1,18 @@
 import React, { useEffect, useState, Component } from 'react';
 import './App.css';
+import Navbar from './components/navbar';
 import ExerciseList from './components/showExercises';
-import AddExercise from './components/addExercise';
 import ProgramList from './components/showPrograms';
-import AddProgram from './components/addProgram';
 import StartWorkout from './components/startWorkout';
 import Workout from './components/workout';
 import FinishedWorkouts from './components/finishedWorkouts';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 
 const App = () => {
   const [exercises, setExercises] = useState([]);
   const [programs, setPrograms] = useState([]);
   const [finished, setFinished] = useState([]);
+  const [workoutStarted, toggleWorkingOut] = useState();
 
   const callExerciseApi = async () => {
     const response = await fetch('/api/exercises');
@@ -22,6 +23,11 @@ const App = () => {
     return body;
   };
 
+  const updateExercises = async () => {
+    const exerciseRes = await callExerciseApi();
+    setExercises(exerciseRes);
+  }
+
   const callProgramApi = async () => {
     const response = await fetch('/api/programs');
     const body = await response.json();
@@ -31,6 +37,11 @@ const App = () => {
     return body;
   };
 
+  const updatePrograms = async () => {
+    const programRes = await callProgramApi();
+    setPrograms(programRes);
+  }
+
   const callFinishedApi = async () => {
     const response = await fetch('/api/finishedworkouts');
     const body = await response.json();
@@ -39,6 +50,16 @@ const App = () => {
     }
     return body;
   }
+
+  const resetState = async () => {
+    try {
+      const finishedRes = await callFinishedApi();
+      setFinished(finishedRes)
+      toggleWorkingOut(false)
+    } catch (err) {
+      return console.log(err);
+    }
+  };
 
   useEffect(async () => {
     try {
@@ -58,21 +79,39 @@ const App = () => {
  
   const chooseWorkout = (program) => {
     chooseProgram(program);
+    toggleWorkingOut(true);
   }
 
 
   return (
-    <div className="App main-container">
-      <main>
-      <ExerciseList exercises={exercises} />
-      <AddExercise/>
-      <ProgramList programs={programs} />
-      <AddProgram exercises={exercises} />
-      <StartWorkout programs={programs} start={chooseWorkout}/>
-      <Workout program={programBase} exercises={exercises} />
-      <FinishedWorkouts workouts={finished} />
-      </main>
-    </div>
+    <Router>
+      {workoutStarted
+      ?<div className="wrapper main-container"><Workout resetState={resetState} program={programBase} exercises={exercises} workoutStarted={workoutStarted} /></div>
+      :<div className="container">
+        <main className="warpper main-container">
+          <div className="push">
+          <Switch>
+            <Route exact path="/exercises">
+              <ExerciseList exercises={exercises} updateExercises={updateExercises}/>
+            </Route>
+            <Route exact path="/programs">
+              <ProgramList programs={programs} exercises={exercises} updatePrograms={updatePrograms}/>
+            </Route>
+            <Route path="/start">
+              <StartWorkout programs={programs} start={chooseWorkout}/>
+            </Route>
+            <Route exact path="/">
+              <FinishedWorkouts workouts={finished} />
+            </Route>
+          </Switch>
+          </div>
+        </main>
+        <footer className="footer">
+          <Navbar workoutStarted={workoutStarted}/>
+        </footer>
+      </div>
+    }
+    </Router>
   );
 }
 

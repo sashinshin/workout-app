@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import List from './components/showExercises';
-import Add from './components/addExercise';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(

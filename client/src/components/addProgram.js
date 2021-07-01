@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const AddProgram = ({ exercises }) => {
+const AddProgram = ({ exercises, updatePrograms, toggle }) => {
   const [program, updateProgram] = useState([]);
   const [currentExercise, changeExercise] = useState('');
   const [reps, selectReps] = useState(false);
@@ -16,9 +16,11 @@ const AddProgram = ({ exercises }) => {
   const addSet = e => {
     e.preventDefault();
     const reps = document.getElementById('repsProgram').value;
+    const weight = parseInt(document.getElementById('weight').value);
     const newEx = {
       name: currentExercise,
       reps: reps,
+      weight: weight,
     };
 
   //   const test = program;
@@ -45,7 +47,7 @@ const AddProgram = ({ exercises }) => {
     updateProgram([...array]);
   }
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const name = document.getElementById('program').value;
     if (name) {
@@ -62,6 +64,8 @@ const AddProgram = ({ exercises }) => {
       //show exercise added message
       const body = await response.text();
       console.log(body);
+      updatePrograms();
+      toggle();
 
     }
   };
@@ -77,11 +81,17 @@ const AddProgram = ({ exercises }) => {
         <input
           id="program"
           type="text"
+          defaultValue="New workout"
           />
         <ul>
 
         {reps
-        ? <li>Add reps for {currentExercise} <input id="repsProgram" type="number" min="1" max="99" defaultValue="1"></input><button className="btn"  onClick={() => selectReps(false)}>Back</button><button onClick={addSet}>Add</button> </li>
+        ? <li>Add reps for {currentExercise} 
+        <input id="repsProgram" type="number" min="1" max="99" defaultValue="1"></input>
+        weight
+        <input id="weight" type="number" min="1" max="999" defaultValue="20"></input>
+        <button className="btn"  onClick={() => selectReps(false)}>Back</button>
+        <button onClick={addSet}>Add</button> </li>
         : exercises.map(value => (<li><button className="btn" type="button" id={value.name} onClick={handleClick}>{value.name}</button></li>))
         }
         </ul>
@@ -89,7 +99,7 @@ const AddProgram = ({ exercises }) => {
       </form>
         <ul>Current program:
         {program.map((exercise, index) => {
-          return (<li>{capitalize(exercise.name)}: {exercise.reps} reps <button className="btn" id={index} onClick={removeSet}>Remove set</button></li>)
+          return (<li>{capitalize(exercise.name)}: {exercise.reps} reps // {exercise.weight} kg<button className="btn" id={index} onClick={removeSet}>Remove set</button></li>)
           })}
       </ul>
     </div>

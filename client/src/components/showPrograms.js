@@ -1,13 +1,19 @@
-import React from 'react';
+import { React, useState } from 'react';
+import AddProgram from './addProgram';
 
-const ProgramList = ({ programs }) => {
+const ProgramList = ({ programs, exercises, updatePrograms }) => {
+  const [programButton, toggleProgramButton] = useState(false);
 
-  console.log(programs);
+  const toggle = () => toggleProgramButton(false);
+
   return (
     <div className="show-program">
-      {programs.map(program => <ul key={program.id}><strong>{program.name}</strong>: {program.exercises.map(element => {
-        return (<li>{element.name} * {element.reps} reps</li>)
-        })}</ul>)}
+        {programButton
+        ?<AddProgram exercises={exercises} toggle={toggle} updatePrograms={updatePrograms} />
+        :programs.map(program => <ul key={program.id}><strong>{program.name}</strong>: {program.exercises.map(element => {
+          return (<li>{element.name} * {element.reps} reps / {element.weight} kg</li>)
+          })}</ul>)}
+        <button onClick={() => toggleProgramButton(!programButton)}>{programButton ? 'Exit' : 'Add'}</button>
     </div>
   );
 }

@@ -1,12 +1,17 @@
 import  { React } from 'react';
+import { Link } from 'react-router-dom';
 
 const StartWorkout = ({ programs, start }) => {
-
+  console.log(programs);
+  const emptyProgram = {
+    name: '',
+    exercises: [],
+  }
   return (
     <div>
       <ul>Start workout from:
-      <li><button className="btn" onClick={() => start([])}>Start from scratch!</button></li>
-        {programs.map(program => (<li key={program.id}><button className="btn"  onClick={() => start(program)}>{program.name}</button></li>))}
+      <li><Link to="/"><button className="btn" onClick={() => start(emptyProgram)}>Start from scratch!</button></Link></li>
+        {programs.map(program => (<li key={program.id}><Link to="/"><button className="btn"  onClick={() => start(program)}>{program.name}</button></Link></li>))}
       </ul>
     </div>
   );
