@@ -1,77 +1,79 @@
-import React, { Component } from 'react';
-
-import logo from './logo.svg';
-
+import React, { useEffect, useState, Component } from 'react';
 import './App.css';
+import ExerciseList from './components/showExercises';
+import AddExercise from './components/addExercise';
+import ProgramList from './components/showPrograms';
+import AddProgram from './components/addProgram';
+import StartWorkout from './components/startWorkout';
+import Workout from './components/workout';
+import FinishedWorkouts from './components/finishedWorkouts';
 
-class App extends Component {
-  state = {
-    response: '',
-    post: '',
-    responseToPost: '',
-  };
-  
-  componentDidMount() {
-    this.callApi()
-      .then(res => this.setState({ response: res.express }))
-      .catch(err => console.log(err));
-  }
-  
-  callApi = async () => {
-    const response = await fetch('/api/hello');
+const App = () => {
+  const [exercises, setExercises] = useState([]);
+  const [programs, setPrograms] = useState([]);
+  const [finished, setFinished] = useState([]);
+
+  const callExerciseApi = async () => {
+    const response = await fetch('/api/exercises');
     const body = await response.json();
-    if (response.status !== 200) throw Error(body.message);
-    
+    if (response.status !== 200) {
+      throw Error(body.message);
+    }
     return body;
   };
-  
-  handleSubmit = async e => {
-    e.preventDefault();
-    const response = await fetch('/api/world', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ post: this.state.post }),
-    });
-    const body = await response.text();
-    
-    this.setState({ responseToPost: body });
+
+  const callProgramApi = async () => {
+    const response = await fetch('/api/programs');
+    const body = await response.json();
+    if (response.status !== 200) {
+      throw Error(body.message);
+    }
+    return body;
   };
-  
-render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-        <p>{this.state.response}</p>
-        <form onSubmit={this.handleSubmit}>
-          <p>
-            <strong>Post to Server:</strong>
-          </p>
-          <input
-            type="text"
-            value={this.state.post}
-            onChange={e => this.setState({ post: e.target.value })}
-          />
-          <button type="submit">Submit</button>
-        </form>
-        <p>{this.state.responseToPost}</p>
-      </div>
-    );
+
+  const callFinishedApi = async () => {
+    const response = await fetch('/api/finishedworkouts');
+    const body = await response.json();
+    if (response.status !== 200) {
+      throw Error(body.message);
+    }
+    return body;
   }
+
+  useEffect(async () => {
+    try {
+      const exerciseRes = await callExerciseApi();
+      const programRes = await callProgramApi();
+      const finishedRes = await callFinishedApi();
+      setExercises(exerciseRes);
+      setPrograms(programRes);
+      setFinished(finishedRes)
+      return;
+    } catch (err) {
+      return console.log(err);
+    }
+  }, []);
+
+  const [programBase, chooseProgram] = useState([]);
+ 
+  const chooseWorkout = (program) => {
+    chooseProgram(program);
+  }
+
+
+  return (
+    <div className="App main-container">
+      <main>
+      <ExerciseList exercises={exercises} />
+      <AddExercise/>
+      <ProgramList programs={programs} />
+      <AddProgram exercises={exercises} />
+      <StartWorkout programs={programs} start={chooseWorkout}/>
+      <Workout program={programBase} exercises={exercises} />
+      <FinishedWorkouts workouts={finished} />
+      </main>
+    </div>
+  );
 }
 
 export default App;

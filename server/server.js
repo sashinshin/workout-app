@@ -2,24 +2,129 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = 5000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-let array = ['hey']
+let exercises = [
+  {
+    id: 1,
+    name: "deadlift",
+    muscleTrained: ["back", "legs"]
+  },
+  {
+    id: 2,
+    name: "squat",
+    muscleTrained: ["legs"]
+  },
+  {
+    id: 3,
+    name: "benchpress",
+    muscleTrained: ["chest", "shoulders", "triceps"]
+  }
+]
 
-app.get('/api/hello', (req, res) => {
-  res.send({ express: 'Hello From Express' });
+const nextId = exerciseArray => {
+  // eslint-disable-next-line max-len
+  const highestId = exerciseArray.reduce((accumulator, currentValue) => (currentValue.id > accumulator 
+    ? currentValue.id 
+    : accumulator), 0);
+  return Number.parseInt(highestId, 10) + 1;
+};
+
+app.get('/api/exercises', (req, res) => {
+  res.send(exercises);
 });
 
-app.post('/api/world', (req, res) => {
-  console.log(req.body);
-  array.push(req.body.post);
-  console.log(array);
-  res.send(
-    `I received your POST request. This is what you sent me: ${req.body.post}`,
-  );
+app.post('/api/exercises', (req, res) => {
+  const newExercise = req.body;
+  newExercise.id = nextId(exercises);
+  console.log(newExercise);
+  exercises.push(newExercise);
+  res.send(`${req.body.name} added!`);
 });
+
+app.get('/api/exercises/:muscleGroup', (req, res) => {
+  const output = [];
+  exercises.forEach(exercise => {
+    exercise.muscleTrained.forEach(muscle => {
+      if (muscle === req.params.muscleGroup) {
+        output.push(exercise)
+      }
+    })
+  });
+  console.log(req.params.muscleGroup);
+  res.send(output);
+});
+
+let programs = [
+  {
+    id: 1,
+    name: "3x5",
+    exercises: [
+      {
+        name: "deadlift",
+        reps: 5,
+      },
+      {
+        name: "deadlift",
+        reps: 5,
+      },
+      {
+        name: "deadlift",
+        reps: 5,
+      },
+      {
+        name: "squat",
+        reps: 5,
+      },
+      {
+        name: "squat",
+        reps: 5,
+      },
+      {
+        name: "squat",
+        reps: 5,
+      },
+      {
+        name: "benchpress",
+        reps: 5,
+      },
+      {
+        name: "benchpress",
+        reps: 5,
+      },
+      {
+        name: "benchpress",
+        reps: 5,
+      },
+    ]
+  }
+]
+
+app.get('/api/programs', (req, res) => {
+  res.send(programs);
+})
+
+app.post('/api/programs', (req, res) => {
+  const newProgram = req.body;
+  newProgram.id = nextId(programs);
+  console.log(newProgram);
+  programs.push(newProgram);
+  res.send(programs);
+})
+
+let finishedWorkouts = []
+
+app.get('/api/finishedworkouts', (req, res) => {
+  res.send(finishedWorkouts);
+})
+
+app.post('/api/finishedworkouts', (req, res) => {
+  const finished = req.body;
+  finishedWorkouts.push(finished);
+  res.send(finishedWorkouts);
+})
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

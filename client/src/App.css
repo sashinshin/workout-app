@@ -1,39 +1,114 @@
-.App {
-  text-align: center;
+* {
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+:root {
+  --accent: rgb(141, 39, 39);
+  --card: #f4f4f4;
+  --card-selected: #b8b8b8;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+body {
+  font-family: sans-serif;
+  background-color: ghostwhite;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 50%;
+.main-container {
+  max-width: 500px;
+  margin: 30px auto;
+  overflow: auto;
+  min-height: 300px;
+  border: 2px solid var(--accent);
+  background-color: white;
+  padding: 30px;
+  border-radius: 5px;
+  align-items: center;
+}
+
+.btn {
+  display: inline-block;
+  background: black;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.btn:hover {
+  background: var(--accent);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+main {
+  display: flex;  
+  flex-direction: column;
+}
+
+.form {
   display: flex;
   flex-direction: column;
+  margin-bottom: 40px;
+}
+
+.form__content {
+  min-width: 100%;
+  max-width: 100%;
+}
+
+.form__button {
+  align-self: flex-end;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  order: 1;
+}
+
+.card--done {
+  order: 2;
+}
+
+.card__content {
+  text-decoration: none;
+  border: none;
+  background: var(--card);
+  margin: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.card__content:hover {
+  background: var(--card-selected);
+}
+
+.card--done .card__content {
+  border-left: 5px solid var(--accent);
+  background: var(--card-selected);
+}
+
+.card--done .card__content:hover {
+  background: var(--card);
+}
+
+
+.card__delete-button {
+  position: absolute;
+  align-self: flex-end;
+  margin-top: 20px;
+  margin-right: 20px;
+}
+
+.card h3 {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-  padding-bottom: 10px;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  justify-content: space-between;
 }
