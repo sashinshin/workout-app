@@ -6,6 +6,7 @@ const FinishedWorkouts = ({ workouts }) => {
 
   return (
     <div className="workout-container">
+      <h3>Completed workouts:</h3>
       {workouts.length > 0
       ?workouts.map(value => (
       <section className="card">
@@ -15,7 +16,7 @@ const FinishedWorkouts = ({ workouts }) => {
         </div>
           <div className="card__content">{value.exercises.map(ex => (<div>{capitalize(ex.name)} x {ex.reps} / {ex.weight} kg </div>))}</div>
         </section>))
-      :"No finished workouts :("}
+      :<div className="card">Nothing to see 😢 </div>}
     </div>
   );
 }

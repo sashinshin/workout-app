@@ -23,22 +23,13 @@ const AddProgram = ({ exercises, updatePrograms, toggle }) => {
       weight: weight,
     };
 
-  //   const test = program;
-
-  //   test.sort((a, b) => {
-  //     if(a.name < b.name) { return -1; }
-  //     if(a.name > b.name) { return 1; }
-  //     return 0;
-  // })
-
-  // console.log(test);
-
     updateProgram([...program, newEx])
     console.log(newEx);
   }
 
   const removeSet = (event) => {
     //updateProgram(program.exercise.filter(current => exercise !== current))
+    event.preventDefault();
     console.log(parseInt(event.target.id));
     const array = program;
     const index = parseInt(event.target.id);

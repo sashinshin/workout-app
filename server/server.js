@@ -27,7 +27,6 @@ let exercises = [
 ]
 
 const nextId = exerciseArray => {
-  // eslint-disable-next-line max-len
   const highestId = exerciseArray.reduce((accumulator, currentValue) => (currentValue.id > accumulator 
     ? currentValue.id 
     : accumulator), 0);
@@ -41,7 +40,6 @@ app.get('/api/exercises', (req, res) => {
 app.post('/api/exercises', (req, res) => {
   const newExercise = req.body;
   newExercise.id = nextId(exercises);
-  console.log(newExercise);
   exercises.push(newExercise);
   res.send(`${req.body.name} added!`);
 });
@@ -120,8 +118,7 @@ app.get('/api/programs', (req, res) => {
 app.post('/api/programs', (req, res) => {
   const newProgram = req.body;
   newProgram.id = nextId(programs);
-  console.log(newProgram);
-  programs.push(newProgram);
+  programs.unshift(newProgram);
   res.send(programs);
 })
 
@@ -136,7 +133,6 @@ app.post('/api/finishedworkouts', (req, res) => {
   const date = dateFormat(req.body.workoutStart, 'ddd mmm dd, yyyy');
   const start = dateFormat(req.body.workoutStart, 'HH:MM');
   const end = dateFormat(req.body.workoutEnd, 'HH:MM');
-  console.log(finished);
   finishedWorkouts.unshift({...finished, workoutEnd: end, workoutStart: start, date: date});
   res.send(finishedWorkouts);
 })
