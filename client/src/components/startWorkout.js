@@ -8,12 +8,11 @@ const StartWorkout = ({ programs, start }) => {
     exercises: [],
   }
   return (
-    <div>
-      <ul>Start workout from:
-      <li><Link to="/"><button className="btn" onClick={() => start(emptyProgram)}>Start from scratch!</button></Link></li>
-        {programs.map(program => (<li key={program.id}><Link to="/"><button className="btn"  onClick={() => start(program)}>{program.name}</button></Link></li>))}
-      </ul>
-    </div>
+    <section className="card">
+      <div className="card__title"><h3>Start Workout</h3></div>
+      <div><Link to="/"><button className="btn" onClick={() => start(emptyProgram)}>From scratch!</button></Link></div>
+      {programs.map(program => (<div key={program.id}><Link to="/"><button className="btn"  onClick={() => start(program)}>{program.name}</button></Link></div>))}
+    </section>
   );
 }
 

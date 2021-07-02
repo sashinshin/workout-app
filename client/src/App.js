@@ -86,10 +86,9 @@ const App = () => {
   return (
     <Router>
       {workoutStarted
-      ?<div className="wrapper main-container"><Workout resetState={resetState} program={programBase} exercises={exercises} workoutStarted={workoutStarted} /></div>
+      ?<div className="main-container"><Workout resetState={resetState} program={programBase} exercises={exercises} workoutStarted={workoutStarted} /></div>
       :<div className="container">
-        <main className="warpper main-container">
-          <div className="push">
+        <main className="main-container">
           <Switch>
             <Route exact path="/exercises">
               <ExerciseList exercises={exercises} updateExercises={updateExercises}/>
@@ -104,7 +103,6 @@ const App = () => {
               <FinishedWorkouts workouts={finished} />
             </Route>
           </Switch>
-          </div>
         </main>
         <footer className="footer">
           <Navbar workoutStarted={workoutStarted}/>

@@ -1,8 +1,8 @@
 import  { React } from 'react';
 
-const FinishedWorkouts = ({ workouts }) => {
+const capitalize = (string) => string[0].toUpperCase() + string.substring(1)
 
-  const capitalize = (string) => string[0].toUpperCase() + string.substring(1)
+const FinishedWorkouts = ({ workouts }) => {
 
   return (
     <div className="workout-container">

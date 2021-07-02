@@ -51,7 +51,7 @@ const AddExercise = ({ updateExercises, toggle }) => {
           placeholder="New exercise..."
           />
         <section className="add-exercise__input">
-        {muscleGroups.map((value, key) => (<div key={key}><input type="checkbox" id={value} name="muscle" />{value}</div>))}
+        {muscleGroups.map((value, key) => (<div key={key}><input type="checkbox" id={value} name="muscle" /> {value}</div>))}
         </section>
         <button className="btn"  type="submit">Submit</button>
       </form>

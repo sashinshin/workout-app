@@ -1,13 +1,8 @@
 import  { React, useState } from 'react';
 
-const Workout = ({ program, exercises, resetState }) => {
-  const dummyProgram =[
-    {
-      name: "deadlift",
-      reps: 5,
-    }
-  ]
+const capitalize = (string) => string[0].toUpperCase() + string.substring(1)
 
+const Workout = ({ program, exercises, resetState }) => {
   const [currentWorkout, updateWorkout] = useState(program);
   const [currentExercise, changeExercise] = useState('');
   const [reps, selectReps] = useState(false);
@@ -22,9 +17,11 @@ const Workout = ({ program, exercises, resetState }) => {
   const addSet = e => {
     e.preventDefault();
     const reps = document.getElementById('repsWorkout').value;
+    const weight = document.getElementById('weightWorkout').value;
     const newEx = {
       name: currentExercise,
       reps: reps,
+      weight: weight,
     };
     updateWorkout({...currentWorkout, exercises: [...currentWorkout.exercises, newEx]});
   }
@@ -47,7 +44,8 @@ const Workout = ({ program, exercises, resetState }) => {
     const finishedArray = [];
     exArray.forEach((element, index) => {
       const weight = parseInt(document.getElementById(`weight${index}`).value);
-      finishedArray.push({...element, weight: weight})
+      const reps = parseInt(document.getElementById(`reps${index}`).value)
+      finishedArray.push({...element, weight: weight, reps: reps})
     });
 
     const finishedWorkout = {
@@ -70,22 +68,28 @@ const Workout = ({ program, exercises, resetState }) => {
   }
 
   return (
-    <div className="add-program">
-      <button className="btn finish-workout" onClick={endWorkout}>Finish workout!</button>
-      <h3>{currentWorkout.name ||  'New workout'}</h3>
+    <div className="workout-container">
+    <div className="card--start card">
+      <button className="btn btn-submit-program" onClick={endWorkout}>Finish workout!</button>
+      <div className="card__title card__title--start"><h3>{currentWorkout.name ||  'New workout'}</h3></div>
       {currentWorkout.exercises
-      ?<ul>{currentWorkout.exercises.map((element, index) =>  (<li>{
-        element.name} reps:  {element.reps} weight: 
-        <input id={"weight" + index} type="number" defaultValue={element.weight} min="1" max="999"></input> kg
-        <button className="btn" id={index} onClick={removeSet}>Remove set</button>
-        </li>))}</ul>
+      ?<div className="card__content card_content--start">{currentWorkout.exercises.map((element, index) =>  
+        (<div>{capitalize(element.name)}: <input id={"reps" + index} type="number" defaultValue={element.reps} min="1" max="99"></input> reps <input id={"weight" + index} type="number" defaultValue={element.weight} min="1" max="999"></input> kg
+        <button className="btn btn-remove" id={index} onClick={removeSet}>Remove</button>
+        </div>))}</div>
       :'Add an exercise!'
-    }<ul>
+    }
+    </div>
+    <div>
       {reps
-      ? <li>Add reps for {currentExercise} <input id="repsWorkout" type="number" min="1" max="99" defaultValue="1"></input><button className="btn" onClick={() => selectReps(false)}>Back</button><button className="btn" onClick={addSet}>Add</button> </li>
-      : exercises.map(value => (<li><button className="btn"  type="button" id={value.name} onClick={handleClick}>{value.name}</button></li>))
+      ? <div>
+      {capitalize(currentExercise)}: <input id="repsWorkout" type="number" min="1" max="99" defaultValue="1"></input> reps <input id="weightWorkout" type="number" min="1" max="999" defaultValue="20"></input> kg
+      <button className="btn btn-exit" onClick={() => selectReps(false)}>Back</button>
+      <button className="btn" onClick={addSet}>Add</button>
+      </div>
+      : (<div><strong>Add:</strong> {exercises.map(value => (<div className="card card--add" id={value.name} onClick={handleClick}>{capitalize(value.name)}</div>))}</div>)
       }
-      </ul>
+      </div>
     </div>
   );
 }

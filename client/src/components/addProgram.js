@@ -74,34 +74,29 @@ const AddProgram = ({ exercises, updatePrograms, toggle }) => {
 
   return (
     <div className="add-program">
-      <form onSubmit={handleSubmit}>
-        <p>
-          <strong>Add program:</strong>
-        </p>
-        <input
+      <form class="card-container" onSubmit={handleSubmit}>
+        <section className="card">
+        <h3      className="card__title"><input 
+  
           id="program"
           type="text"
-          defaultValue="New workout"
-          />
-        <ul>
+          defaultValue="New workout"/></h3>
+          <div className="card__content program-title">{program.map((exercise, index) => {
+            return (<div>{capitalize(exercise.name)} x {exercise.reps} / {exercise.weight} kg<button className="btn btn-remove-set" id={index} onClick={removeSet}>Remove</button></div>)
+            })}</div>
+        </section>
+
+        <section>
 
         {reps
-        ? <li>Add reps for {currentExercise} 
-        <input id="repsProgram" type="number" min="1" max="99" defaultValue="1"></input>
-        weight
-        <input id="weight" type="number" min="1" max="999" defaultValue="20"></input>
+        ? <div>{capitalize(currentExercise)}: <input id="repsProgram" type="number" min="1" max="99" defaultValue="1"></input> reps <input id="weight" type="number" min="1" max="999" defaultValue="20"></input> kg
         <button className="btn"  onClick={() => selectReps(false)}>Back</button>
-        <button onClick={addSet}>Add</button> </li>
-        : exercises.map(value => (<li><button className="btn" type="button" id={value.name} onClick={handleClick}>{value.name}</button></li>))
+        <button className="btn" onClick={addSet}>Add</button> </div>
+        : exercises.map(value => (<div className="card card--add" id={value.name} onClick={handleClick}>{capitalize(value.name)}</div>))
         }
-        </ul>
-        <button className="btn" type="submit">Submit</button>
+        </section>
+        <button className="btn btn-submit-program" type="submit">Submit</button>
       </form>
-        <ul>Current program:
-        {program.map((exercise, index) => {
-          return (<li>{capitalize(exercise.name)}: {exercise.reps} reps // {exercise.weight} kg<button className="btn" id={index} onClick={removeSet}>Remove set</button></li>)
-          })}
-      </ul>
     </div>
   );
 }

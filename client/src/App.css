@@ -54,16 +54,6 @@ main {
   flex-direction: column;
 }
 
-.add-exercise {
-  text-decoration: none;
-  border: none;
-  background: var(--card);
-  margin: 5px;
-  padding: 10px 20px;
-  cursor: pointer;
-  text-align: left;
-}
-
 .workout-container {
   display: flex;
   align-items: flex-start;
@@ -73,14 +63,15 @@ main {
 .card {
   border-radius: 5px;
   padding: 10px;
-  background-color: grey;
+  background-color: var(--card);
+  border: solid 2px grey;
   min-width: 300px;
   max-height: 300px;
   margin: 10px;
 }
 
 .card__title {
-  margin-bottom: 5px;
+  border-bottom: solid 2px black;
 }
 
 .card__content {
@@ -96,22 +87,17 @@ main {
   margin: 5px;
 }
 
-.finish-workout {
-  position: sticky;
-}
-
 .footer {
   background-color: var(--accent);
-  padding: 20px 10px;
   position: fixed;
-  padding-bottom: 100px;
-  width: 100%
+  width: 100%;
+  bottom: 0;
+  padding: 20px
 }
 
 .navbar {
   display: flex;
   justify-content: space-around;
-  padding-top: 20px;
   text-decoration: none;
   font-weight: bold;
 }
@@ -121,7 +107,92 @@ a {
   text-decoration: none;
 }
 
-/* .container {
+.toggle {
+  align-self: right;
+  position: sticky;
+}
+
+.show-exercise {
+  border: solid 2px grey;
+  background: var(--card);
+  margin: 5px;
+  padding: 10px 20px;
+  text-align: left;
+  border-radius: 2px;
+}
+
+.exercise {
+  background-color: lightgray;
+  padding: 2px;
+  border-radius: 2px;
+  margin-top: 10px;
+  border-bottom: solid 2px black;
+}
+
+.add-exercise {
+  margin: 2px;
+}
+
+.show-program {
   display: flex;
+  align-items: flex-start;
   flex-direction: column;
-} */
+}
+
+.card--program {
+  max-height: 250px;
+}
+
+.program {
+  height: 200px;
+  font-size: 18px;
+}
+
+.card--add:hover {
+ background-color: grey;
+}
+
+.card--add:active {
+  transform: scale(0.97);
+ }
+
+ .btn-remove-set{
+   padding: 2px;
+ }
+
+ .program-title {
+   padding-bottom: 10px;
+ }
+
+ .btn-submit-program{
+   background-color: var(--accent);
+ }
+
+ .btn-exit {
+   background: white;
+   color: black;
+   border: solid 2px black;
+ }
+
+ .btn-exit:hover {
+  background: grey;
+ }
+
+.card--start {
+  max-height: 600px;
+}
+
+.card_content--start {
+  max-height: 450px;
+}
+
+.btn-remove {
+  background: lightgray;
+  color: black;
+  border: solid 2px black;
+}
+
+.btn-remove:hover {
+ background: grey;
+}
+
