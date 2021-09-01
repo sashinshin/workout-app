@@ -13,12 +13,12 @@ An easy way to track your progress working out!
 #### Install Dependencies
 
 ```
-- cd client npm install
-- cd server npm install
+cd client npm install
+cd .. cd server npm install
 ```
 
 #### Run in dev
 
 ```
-- cd server npm dev
+cd server npm dev
 ```
