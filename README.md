@@ -18,7 +18,7 @@ cd .. cd server npm install
 ```
 
 #### Run in dev
-
+In server directory:
 ```
-cd server npm dev
+npm dev
 ```
