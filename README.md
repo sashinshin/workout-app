@@ -1,7 +1,9 @@
 # Workout tracker
 An easy way to track your progress working out!
 
-This workout tracker is a hackday project, finished in one day.
+The app uses an express server for its backend and the react framework for its frontend.
+
+This workout tracker is a hackday project, finished in one day!
 
 ---
 ## Features
