@@ -1,12 +1,27 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const dateFormat = require("dateformat");
+const cors = require('cors');
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+const whitelist = ['http://localhost:3000', 'http://localhost:5000', 'http://localhost:8080']
+const corsOptions = {
+  origin: function (origin, callback) {
+    console.log("** Origin of request " + origin)
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      console.log("Origin acceptable")
+      callback(null, true)
+    } else {
+      console.log("Origin rejected")
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+app.use(cors(corsOptions))
 
 let exercises = [
   {
@@ -136,5 +151,15 @@ app.post('/api/finishedworkouts', (req, res) => {
   finishedWorkouts.unshift({...finished, workoutEnd: end, workoutStart: start, date: date});
   res.send(finishedWorkouts);
 })
+
+const path = require('path');
+if (process.env.NODE_ENV === 'production') {
+  // Serve any static files
+  app.use(express.static(path.join(__dirname, 'client/build')));
+// Handle React routing, return all requests to React app
+  app.get('*', function(req, res) {
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  });
+}
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
