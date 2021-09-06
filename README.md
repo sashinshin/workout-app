@@ -17,12 +17,12 @@ This workout tracker is a hackday project, finished in one day!
 #### Install Dependencies
 
 ```
+npm install
 cd client npm install
-cd server npm install
 ```
 
 #### Run in dev
-In server directory:
+In root directory:
 ```
-npm dev
+npm run dev
 ```
