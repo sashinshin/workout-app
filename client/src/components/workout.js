@@ -6,7 +6,7 @@ const Workout = ({ program, exercises, resetState }) => {
   const [currentWorkout, updateWorkout] = useState(program);
   const [currentExercise, changeExercise] = useState('');
   const [reps, selectReps] = useState(false);
-  const workoutStart = new Date;
+  const workoutStart = new Date();
 
   const handleClick = e => {
     e.preventDefault();
