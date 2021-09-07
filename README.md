@@ -1,4 +1,6 @@
 # Workout tracker
+[Try it here!](http://workout-app-hackday.herokuapp.com/)
+
 An easy way to track your progress working out!
 
 The app uses an express server for its backend and the react framework for its frontend.
